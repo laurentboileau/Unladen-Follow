@@ -137,7 +137,7 @@ exports.callback = function(req, res){
       req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
 
       if (next) {
-          res.redirect(next);        
+        res.redirect(`/${next}`);        
       } else {
         res.send("Authenticated with Twitter. Have a wonderful day.");
       }
