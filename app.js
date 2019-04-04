@@ -28,7 +28,11 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(session({ secret: config.EXPRESS_SESSION_SECRET }));
+app.use(session({ 
+  secret: config.EXPRESS_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(function(req, res, next) {
   res.locals.user = req.session.user; // just boilerplate?
   res.locals.isLoggedIn = !!(req.session.oauthVerifier);

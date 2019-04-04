@@ -91,7 +91,7 @@ exports.connect = function(req, res) {
 
   consumer(next).getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){ //callback with request token
     if (error) {
-      res.send("Error getting OAuth request token : " + sys.inspect(error), 500);
+      res.status(500).send("Error getting OAuth request token : " + sys.inspect(error));
     } else { 
       sys.puts("results>>"+sys.inspect(results));
       sys.puts("oauthToken>>"+oauthToken);
