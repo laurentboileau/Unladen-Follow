@@ -1,4 +1,5 @@
 var sys = require('util');
+var url = require('url');
 var oauth = require('oauth');
 var config = require('../config.js');
 
@@ -8,6 +9,13 @@ var _twitterConsumerSecret = config.TWITTER_CONSUMER_SECRET;
 console.log("_twitterConsumerKey: %s and _twitterConsumerSecret %s", _twitterConsumerKey, _twitterConsumerSecret);
  
 function consumer(next) {
+  
+  let baseUrl = new URL(config.HOSTPATH);
+  if (config.PORT) {
+    baseUrl.port = config.PORT;
+  }
+
+  const callbackUrl = new URL(`/twitter/callback?next=${next}`, baseUrl);
 
   return new oauth.OAuth(
     'https://api.twitter.com/oauth/request_token', 
@@ -15,7 +23,7 @@ function consumer(next) {
      _twitterConsumerKey, 
      _twitterConsumerSecret, 
      "1.0A", 
-     config.HOSTPATH+'/twitter/callback?next='+next, 
+     callbackUrl.href, 
      "HMAC-SHA1"
    );
 }
