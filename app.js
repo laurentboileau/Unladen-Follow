@@ -7,9 +7,7 @@ var express = require('express')
  
 var config = require('./config.js');
 console.log(config.PORT);
- 
-var engine = require('ejs-locals');
- 
+
 var app = express();
  
 // all environments
@@ -17,7 +15,6 @@ app.configure(function(){
   app.set('port', config.PORT || 3000);
   app.set('views', __dirname + '/views');
   
-  app.engine('ejs', engine);
   app.set('view engine', 'ejs');
 
   app.use(express.favicon(__dirname + '/public/favicon.ico'));

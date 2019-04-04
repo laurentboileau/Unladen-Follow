@@ -1,4 +1,4 @@
-<% layout('_layout') -%>
+<%- include('_header') -%>
 
 <h1>Too many tweets?</h1>
 <p>Cut the noise so you can appreciate the signal.</p>
@@ -7,4 +7,5 @@
 
 <p id='birds'><img src="/images/bird2bird.png"></p>
 
-<% include _choices.ejs %>
+<%- include('_choices') -%>
+<%- include('_footer') -%>

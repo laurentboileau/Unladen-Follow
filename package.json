@@ -6,8 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "ejs": "0.8.*",
-    "ejs-locals": "1.*",
+    "ejs": "^2.6.1",
     "express": "3.4.*",
     "oauth": "0.9.*",
     "validator": "^10.11.0"

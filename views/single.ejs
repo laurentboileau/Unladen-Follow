@@ -1,4 +1,4 @@
-<% layout('_layout') -%>
+<%- include('_header') -%>
 
 <h2>Tweet Load for <%= user %></h2>
 
@@ -45,8 +45,10 @@
 
 <br><br>
 
-<% include _choices.ejs %>
+<%- include('_choices') -%>
 
 <script>
     Unladen.go_single("<%= user %>");
 </script>
+
+<%- include('_footer') -%>
