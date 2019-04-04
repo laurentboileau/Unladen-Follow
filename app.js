@@ -1,9 +1,16 @@
-
 var express = require('express')
   , routes = require('./routes')
   , twitter = require('./routes/twitter')
   , http = require('http')
   , path = require('path');
+  
+var bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
+  , errorHandler = require('errorhandler')
+  , favicon = require('serve-favicon')
+  , methodOverride = require('method-override')
+  , logger = require('morgan')
+  , session = require('express-session');
  
 var config = require('./config.js');
 console.log(config.PORT);
@@ -11,27 +18,28 @@ console.log(config.PORT);
 var app = express();
  
 // all environments
-app.configure(function(){
-  app.set('port', config.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  
-  app.set('view engine', 'ejs');
+app.set('port', config.PORT || 3000);
+app.set('views', __dirname + '/views');
 
-  app.use(express.favicon(__dirname + '/public/favicon.ico'));
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.session({  secret: config.EXPRESS_SESSION_SECRET }));
-  app.use(function(req, res, next){
-      res.locals.user = req.session.user; // just boilerplate?
-      res.locals.isLoggedIn = !!(req.session.oauthVerifier);
-      next();
-    });
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+app.set('view engine', 'ejs');
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride());
+app.use(cookieParser());
+app.use(session({ secret: config.EXPRESS_SESSION_SECRET }));
+app.use(function(req, res, next) {
+  res.locals.user = req.session.user; // just boilerplate?
+  res.locals.isLoggedIn = !!(req.session.oauthVerifier);
+  next();
 });
+app.use(express.static(path.join(__dirname, 'public')));
+
+// development only
+if (app.get('env') === 'development') {
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+}
 
 var isLoggedIn = true; // todo: this is wrong
  
